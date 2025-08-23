@@ -8,10 +8,26 @@ Working in radians led to compounding inaccuracies due to floating point represe
 being gimped in computers due to limited memory
 
 I HAVE A FEELING THIS IS WHY OTHER GROUPS GOT ROBOTS MOVING IN ELIPSES INSTEAD OF CIRCLES
+Also probably due to real world interference
 
 I am unsure how much of an issue this will be, will keep an eye out
 """
 
+"""
+REGARDING FORMULAS:
+Rotating a vector clockwise or anticlockwise CORRECTLY is very important, as is using the correct x or y coordinate
+Throughout debugging there was a lot of time wasted because of an incorrect rotation about an angle
+ALWAYS DOUBLE CHECK EACH FUNCTION AGAINST MULTIPLE TEST CASES AND VERIFY SOLUTION BY HAND (or Desmos lol)
+Drawing out the diagram helps
+"""
+
+"""
+REGARDING CCC DUBIN PATH:
+I have yet to figure out how to deduce which side of the circles should the third circle be
+There's 2 possible positions (opposing corners of square formed by centers)
+But one leads to a shorter path
+For now I have decided to just calculate both paths and output the shorter one
+"""
 
 
 class Dubins:
@@ -103,7 +119,7 @@ class Dubins:
         V1 = (p2[0]-p1[0], p2[1]-p1[1]) #Vector from p1 to p3
         alpha = atan2(p2[1]-p1[1], p2[0]-p1[0]) #Polar angle of vector from p1 to p3 (coincidentally angle for the straight segment too)
 
-        V2 = (-V1[1], V1[0]) #anticlockwise orthogonal vector to V1
+        V2 = (V1[1], -V1[0]) #clockwise orthogonal vector to V1
 
         pt1 = (p1[0] + (self.radius/l)*V2[0] , p1[1] + (self.radius/l)*V2[1]) #tangent point on first circle
         pt2 = (pt1[0] + V1[0] , pt1[1] + V1[1])
@@ -177,9 +193,9 @@ class Dubins:
         V3 = (-V2[0], -V2[1]) #Reverse of V2
         
         pt1 = (p1[0] + (self.radius/d)*V2[0], 
-               p1[1] + (self.radius/d)*V2[0])
+               p1[1] + (self.radius/d)*V2[1])
         pt2 = (p2[0] + (self.radius/d)*V3[0], 
-               p2[1] + (self.radius/d)*V3[0])
+               p2[1] + (self.radius/d)*V3[1])
         
         #find total length of path
         arc_1 = self.arc_length(start, pt1, center=p1, dir="R")
@@ -211,14 +227,14 @@ class Dubins:
         delta = acos((2*self.radius)/d)
 
         V1 = (p2[0]-p1[0], p2[1]-p1[1]) #Vector from p1 to p2
-        V2 = (V1[0]*cos(delta) - V1[1]*sin(delta),
-              V1[0]*sin(delta) + V1[1]*cos(delta)) #Counterclockwise V1 
+        V2 = (V1[0]*cos(delta) + V1[1]*sin(delta),
+              -V1[0]*sin(delta) + V1[1]*cos(delta)) #Clockwise V1 
         V3 = (-V2[0], -V2[1]) #Reverse of V2
-        
+
         pt1 = (p1[0] + (self.radius/d)*V2[0], 
-               p1[1] + (self.radius/d)*V2[0])
+               p1[1] + (self.radius/d)*V2[1])
         pt2 = (p2[0] + (self.radius/d)*V3[0], 
-               p2[1] + (self.radius/d)*V3[0])
+               p2[1] + (self.radius/d)*V3[1])
         
         #find total length of path
         arc_1 = self.arc_length(start, pt1, center=p1, dir="L")
@@ -238,7 +254,21 @@ class Dubins:
             end: tuple
                 (x, y, theta) end coordinates
         """
+        #Find the centers of the 2 right turning circles
+        p1 = self.find_center(start)[1] #start point right turning circle
+        p2 = self.find_center(end)[1] #end point right turning circle
+
+        d = dist(p1, p2) #distance between 2 centers
+        #CCC Path only useful if d < 4r, else straight go to CSC
+        if d > 4*self.radius:
+            total_length = float('inf') #Make path length super long so algo ignores this immediately
+
+        q = ((p1[0] + p2[0])/2 ,(p1[1] + p2[1])/2) #Midpoint between center of 2 circles
+
+        V1 = (p2[0]-p1[0], p2[1]-p1[1]) #Vector from p1 to p2
         
 
 d = Dubins(20)
-print(d.LSR((10, 10, pi/2), (90, 90, 0)))
+start = (10, 10, 0)
+end =(50, 110, 0)
+print(d.LSR(start, end))
