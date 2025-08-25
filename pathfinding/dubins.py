@@ -262,13 +262,53 @@ class Dubins:
         #CCC Path only useful if d < 4r, else straight go to CSC
         if d > 4*self.radius:
             total_length = float('inf') #Make path length super long so algo ignores this immediately
+            return (total_length, {}) #TODO when output format is finalized, don't forget to edit here
 
         q = ((p1[0] + p2[0])/2 ,(p1[1] + p2[1])/2) #Midpoint between center of 2 circles
-
+        
         V1 = (p2[0]-p1[0], p2[1]-p1[1]) #Vector from p1 to p2
         
+        #From here we try both possible Circle 3, and we output the shorter path
+        
+        clockwise_V2 = (V1[1], -V1[0])
+        anticlockwise_V2 = (-V1[1], V1[0])
+
+        d1 = ((2*self.radius)**2 - (d/2)**2)**0.5 #Distance from q to p3
+
+        #||V2|| = d
+        p3_c = (q[0] + (d1/d)* clockwise_V2[0], 
+                q[1] + (d1/d)* clockwise_V2[1])
+        p3_ac = (q[0] + (d1/d)* anticlockwise_V2[0], 
+                 q[1] + (d1/d)* anticlockwise_V2[1])
+        
+        pt1_c = ((p1[0] + p3_c[0])/2, (p1[1] + p3_c[1])/2)
+        pt2_c = ((p2[0] + p3_c[0])/2, (p2[1] + p3_c[1])/2)
+
+        pt1_ac = ((p1[0] + p3_ac[0])/2, (p1[1] + p3_ac[1])/2)
+        pt2_ac = ((p2[0] + p3_ac[0])/2, (p2[1] + p3_ac[1])/2)
+
+
+        #Find total length of both paths
+        arc_1_c = self.arc_length(start, pt1_c, center=p1, dir="R")
+        arc_2_c = self.arc_length(pt1_c, pt2_c, center=p2, dir="L")
+        arc_3_c = self.arc_length(pt2_c, end, center=p1, dir="R")
+
+        total_length_c = arc_1_c + arc_2_c + arc_3_c
+
+        arc_1_ac = self.arc_length(start, pt1_ac, center=p1, dir="R")
+        arc_2_ac = self.arc_length(pt1_c, pt2_ac, center=p2, dir="L")
+        arc_3_ac = self.arc_length(pt2_ac, end, center=p1, dir="R")
+
+        total_length_ac = arc_1_ac + arc_2_ac + arc_3_ac
+
+        #Return the shortest path
+        if total_length_c < total_length_ac:
+            return (total_length_c, pt1_c, pt2_c)
+        else:
+            return (total_length_ac, pt1_ac, pt2_ac)
+
 
 d = Dubins(20)
 start = (10, 10, 0)
 end =(50, 110, 0)
-print(d.LSR(start, end))
+print(d.RLR(start, end))
