@@ -24,9 +24,10 @@ Drawing out the diagram helps
 """
 REGARDING CCC DUBIN PATH:
 I have yet to figure out how to deduce which side of the circles should the third circle be
-There's 2 possible positions (opposing corners of square formed by centers)
+There's 2 possible positions (opposing corners of rhombus formed by centers)
 But one leads to a shorter path
 For now I have decided to just calculate both paths and output the shorter one
+DO TEST THESE FUNCTIONS CAREFULLY, HIGH CHANCE YO SLEEPY HEAD MADE A MISTAKE
 """
 
 
@@ -369,8 +370,3 @@ class Dubins:
             return (total_length_c, pt1_c, pt2_c)
         else:
             return (total_length_ac, pt1_ac, pt2_ac)
-
-d = Dubins(20)
-start = (10, 10, 0)
-end =(50, 110, 0)
-print(d.RLR(start, end))
