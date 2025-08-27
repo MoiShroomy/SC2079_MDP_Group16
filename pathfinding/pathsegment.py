@@ -4,6 +4,7 @@ from dataclasses import dataclass, replace
 """
 I'm using dataclasses solely for the ability to clone using replace()
 This will be useful when implmenting Reeds Shepp Paths if I get to that
+due to the timeflip and reverse functions mentioned in the paper to easily generate similar looking paths
 """
 
 class Direction(Enum):
