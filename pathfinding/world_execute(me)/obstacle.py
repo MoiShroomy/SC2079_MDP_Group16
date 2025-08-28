@@ -29,4 +29,11 @@ class Obstacle:
 
         return (bound_E, bound_W, bound_N, bound_S)
         
-    
+    def collided(self, coord: tuple):
+        """
+        Check if a given coordinate (x, y, theta) is in the collision map
+        """
+        return (
+            self.bound_W <= coord[0] <= self.bound_E and
+            self.bound_S <= coord[1] <= self.bound_N
+        )
