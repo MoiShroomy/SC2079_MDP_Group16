@@ -17,6 +17,8 @@ class Map:
         self.bound_W = self.x
         self.bound_N = self.y + side_length
         self.bound_S = self.y
+
+        assert all(map(lambda obstacle: self.in_bounds(obstacle), self.obstacles))
     
     
     def in_bounds(self, obstacle: Obstacle):
@@ -29,4 +31,9 @@ class Map:
             self.bound_W <= obstacle.x + obstacle.side_length <= self.bound_E and
             self.bound_S <= obstacle.y + obstacle.side_length <= self.bound_N
         )
-                
+    
+    def generate_goals(self):
+        """
+        Go through the obstacle list and generate goal position for robot to stand and take picture
+        """
+        #TODO Generate goal positions
