@@ -370,3 +370,26 @@ class Dubins:
             return (total_length_c, pt1_c, pt2_c)
         else:
             return (total_length_ac, pt1_ac, pt2_ac)
+        
+    def shortest_path(self, start: tuple, end: tuple):
+        """
+        Calculates all dubins paths between start and end points
+        and returns shortest one
+        Params:
+            start: tuple
+                (x, y, theta) start coordinates
+            end: tuple
+                (x, y, theta) end coordinates
+        """
+        paths = []
+
+        funcs = [self.LSL, self.RSR, self.RSL, self.LSR, self.RLR, self.LRL]
+
+        for f in funcs:
+            paths.append(f(start, end))
+
+        return min(paths, key = lambda t: t[0])
+    
+
+d = Dubins(20)
+print(d.shortest_path((0,0,0), (40, 70, 0)))
