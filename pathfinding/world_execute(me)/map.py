@@ -1,4 +1,5 @@
 from obstacle import Obstacle
+from dubins import Dubin
 
 class Map:
 
@@ -43,9 +44,21 @@ class Map:
         Given a list of coordinates (representing target vertices in graph)
         generate the possible edges connecting the graph
 
+        Start point must be in the list too obviously
+
         Params:
             V: list(tuple)
                 list of (x, y, theta) representing vertices
         """
+        d = Dubin(20)
+        E = [[float('inf')] * len(V) for _ in range(len(V))]
 
-        
+        for i in range(len(V)):
+            for j in range(i+1, len(V)):
+                v1 = V[i]
+                v2 = V[j]
+
+        print(E)
+
+m = Map([])
+m.generate_edges([(0,0,0), (40, 70, 0)])       
