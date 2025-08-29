@@ -389,7 +389,3 @@ class Dubins:
             paths.append(f(start, end))
 
         return min(paths, key = lambda t: t[0])
-    
-
-d = Dubins(20)
-print(d.shortest_path((0,0,0), (40, 70, 0)))

@@ -37,3 +37,15 @@ class Map:
         Go through the obstacle list and generate goal position for robot to stand and take picture
         """
         #TODO Generate goal positions
+
+    def generate_edges(self, V: list[tuple]):
+        """
+        Given a list of coordinates (representing target vertices in graph)
+        generate the possible edges connecting the graph
+
+        Params:
+            V: list(tuple)
+                list of (x, y, theta) representing vertices
+        """
+
+        
