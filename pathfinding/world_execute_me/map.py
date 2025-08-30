@@ -1,5 +1,5 @@
-from obstacle import Obstacle
-from pathfinding.縁結び.dubins import Dubin
+from .obstacle import Obstacle
+from 縁結び.dubins import Dubins
 
 class Map:
 
@@ -39,7 +39,7 @@ class Map:
         """
         #TODO Generate goal positions
 
-    def generate_edges(self, V: list[tuple]):
+    def generate_edges(self, V: list[tuple], pathfinder):
         """
         Given a list of coordinates (representing target vertices in graph)
         generate the possible edges connecting the graph
@@ -50,7 +50,7 @@ class Map:
             V: list(tuple)
                 list of (x, y, theta) representing vertices
         """
-        d = Dubin(20)
+        d = Dubins(20)
         E = [[float('inf')] * len(V) for _ in range(len(V))]
 
         for i in range(len(V)):
@@ -58,4 +58,6 @@ class Map:
                 v1 = V[i]
                 v2 = V[j]
 
-        print(E)   
+
+
+        return(E)  
