@@ -50,6 +50,7 @@ class Map:
             V: list(tuple)
                 list of (x, y, theta) representing vertices
         """
+        #TODO Remove paths if it cuts through obstacles
         E = [[float('inf')] * len(V) for _ in range(len(V))]
 
         for i in range(len(V)):
@@ -59,5 +60,5 @@ class Map:
 
                 E[i][j] = pathfinder.get_shortest_path(v1, v2)
                 E[j][i] = pathfinder.get_shortest_path(v2, v1)
-
+        
         return(E)  
