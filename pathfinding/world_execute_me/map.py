@@ -1,5 +1,5 @@
 from obstacle import Obstacle
-from dubins import Dubin
+from pathfinding.縁結び.dubins import Dubin
 
 class Map:
 
@@ -58,7 +58,4 @@ class Map:
                 v1 = V[i]
                 v2 = V[j]
 
-        print(E)
-
-m = Map([])
-m.generate_edges([(0,0,0), (40, 70, 0)])       
+        print(E)   
