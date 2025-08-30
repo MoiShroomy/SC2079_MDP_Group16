@@ -1,4 +1,5 @@
 from math import pi, cos, sin, atan2, acos, dist
+from .path_algo import PathAlgo
 
 #Every coordinate is represented with (x, y, theta), theta follows polar standard, so east is 0 radians/degrees
 
@@ -31,7 +32,7 @@ DO TEST THESE FUNCTIONS CAREFULLY, HIGH CHANCE YO SLEEPY HEAD MADE A MISTAKE
 """
 
 
-class Dubins:
+class Dubins(PathAlgo):
     """
     Class implementing methods to calculate Dubins paths
     """
@@ -371,7 +372,7 @@ class Dubins:
         else:
             return (total_length_ac, pt1_ac, pt2_ac)
         
-    def shortest_path(self, start: tuple, end: tuple):
+    def get_shortest_path(self, start: tuple, end: tuple):
         """
         Calculates all dubins paths between start and end points
         and returns shortest one
