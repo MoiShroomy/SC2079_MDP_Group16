@@ -38,7 +38,6 @@ class Map:
         """
         Go through the obstacle list and generate goal position for robot to stand and take picture
         """
-        #TODO Generate goal positions
         GOAL_DIST = 20 #How far the robot must be from the picture
         goals = []
 
