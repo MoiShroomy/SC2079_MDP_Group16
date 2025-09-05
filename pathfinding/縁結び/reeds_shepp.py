@@ -37,7 +37,9 @@ class RS(PathAlgo):
         Return the shortest path from start to end among those that exist
         """
         paths = self.get_all_paths(start, end)
-        return min(paths, key=self.path_length)
+        lengths = map(self.path_length, paths)
+        paths_n_lengths = zip(lengths, paths)
+        return min(paths_n_lengths, key = lambda t: t[0])
 
     def get_all_paths(self, start, end):
         """
