@@ -1,5 +1,6 @@
 from .obstacle import Obstacle
 from 縁結び.path_algo import PathAlgo
+from math import sin,cos
 
 class Map:
 
@@ -33,11 +34,26 @@ class Map:
             self.bound_S <= obstacle.y + obstacle.side_length <= self.bound_N
         )
     
-    def generate_goals(self):
+    def generate_goals(self, obstacles: list[Obstacle]):
         """
         Go through the obstacle list and generate goal position for robot to stand and take picture
         """
         #TODO Generate goal positions
+        GOAL_DIST = 20 #How far the robot must be from the picture
+        goals = []
+
+        for obstacle in obstacles:
+            #Find angle of goal pos
+            goal_facing = (obstacle.facing + 180) % 360
+
+            #Target coord is just in the direction of facing * goal dist
+            goal_x = obstacle.x + GOAL_DIST*cos(obstacle.facing)
+            goal_y = obstacle.y + GOAL_DIST*sin(obstacle.facing)
+
+            #Add to goal list
+            goals.append((goal_x, goal_y, goal_facing))
+
+        return goals
 
     def generate_edges(self, V: list[tuple], pathfinder: PathAlgo):
         """

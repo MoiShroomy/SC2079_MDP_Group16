@@ -3,6 +3,8 @@ from .path_algo import PathAlgo
 
 #Every coordinate is represented with (x, y, theta), theta follows polar standard, so east is 0 radians/degrees
 
+#TODO convert to using degrees in code
+
 """
 REGARDING FLOATING POINT PRECISION:
 Working in radians led to compounding inaccuracies due to floating point representation
